@@ -86,11 +86,7 @@ function parseReminder(raw: unknown, index: number): ReminderDefinition {
 
   const schedule = parseSchedule(item.schedule, id);
   const target = typeof item.target === 'string' ? item.target.trim() : undefined;
-  const targets = Array.isArray(item.targets) ? assertStringArray(item.targets, `${id}.targets`) : undefined;
   const targetEnv = typeof item.targetEnv === 'string' ? item.targetEnv.trim() : undefined;
-  const targetEnvs = Array.isArray(item.targetEnvs)
-    ? assertStringArray(item.targetEnvs, `${id}.targetEnvs`)
-    : undefined;
 
   if (type === 'text') {
     const message = assertString(item.message, `${id}.message`);
@@ -107,9 +103,7 @@ function parseReminder(raw: unknown, index: number): ReminderDefinition {
       type: 'text',
       schedule,
       target,
-      targets,
       targetEnv,
-      targetEnvs,
       message,
       mentionPhones,
       mentionPhoneEnvs,
@@ -129,9 +123,7 @@ function parseReminder(raw: unknown, index: number): ReminderDefinition {
       type: 'poll',
       schedule,
       target,
-      targets,
       targetEnv,
-      targetEnvs,
       question,
       options,
     };
