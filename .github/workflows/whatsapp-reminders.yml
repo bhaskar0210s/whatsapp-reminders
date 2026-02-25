@@ -3,8 +3,6 @@ name: WhatsApp Reminders
 on:
   schedule:
     - cron: '*/5 * * * *'
-    # Temporary test trigger: 11:50 IST (06:20 UTC)
-    - cron: '20 6 * * *'
   workflow_dispatch:
 
 permissions:
@@ -17,6 +15,12 @@ jobs:
     env:
       REMINDERS_FILE: reminder.json
       REMINDER_DUE_TOLERANCE_MINUTES: '2'
+      WHAPI_API_TOKEN: ${{ secrets.WHAPI_API_TOKEN || secrets.WHAPI_TOKEN }}
+      WHAPI_BASE_URL: ${{ secrets.WHAPI_BASE_URL }}
+      WHAPI_GROUP_ID: ${{ secrets.WHAPI_GROUP_ID }}
+      HOUSEHOLD_GROUP_ID: ${{ secrets.HOUSEHOLD_GROUP_ID }}
+      FAMILY_GROUP_ID: ${{ secrets.FAMILY_GROUP_ID }}
+      COOK_MENTION_PHONE: ${{ secrets.COOK_MENTION_PHONE }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -29,57 +33,6 @@ jobs:
 
       - name: Install and build
         run: npm ci && npm run build
-
-      - name: Resolve runtime env
-        env:
-          WHAPI_API_TOKEN_SECRET: ${{ secrets.WHAPI_API_TOKEN }}
-          WHAPI_TOKEN_SECRET: ${{ secrets.WHAPI_TOKEN }}
-          WHAPI_API_TOKEN_VAR: ${{ vars.WHAPI_API_TOKEN }}
-          WHAPI_TOKEN_VAR: ${{ vars.WHAPI_TOKEN }}
-          WHAPI_BASE_URL_SECRET: ${{ secrets.WHAPI_BASE_URL }}
-          WHAPI_BASE_URL_VAR: ${{ vars.WHAPI_BASE_URL }}
-          WHAPI_GROUP_ID_SECRET: ${{ secrets.WHAPI_GROUP_ID }}
-          WHAPI_GROUP_ID_VAR: ${{ vars.WHAPI_GROUP_ID }}
-          HOUSEHOLD_GROUP_ID_SECRET: ${{ secrets.HOUSEHOLD_GROUP_ID }}
-          HOUSEHOLD_GROUP_ID_VAR: ${{ vars.HOUSEHOLD_GROUP_ID }}
-          FAMILY_GROUP_ID_SECRET: ${{ secrets.FAMILY_GROUP_ID }}
-          FAMILY_GROUP_ID_VAR: ${{ vars.FAMILY_GROUP_ID }}
-          COOK_MENTION_PHONE_SECRET: ${{ secrets.COOK_MENTION_PHONE }}
-          COOK_MENTION_PHONE_VAR: ${{ vars.COOK_MENTION_PHONE }}
-        run: |
-          set -e
-
-          pick() {
-            local key="$1"
-            local secret_value="$2"
-            local var_value="$3"
-            local required="${4:-false}"
-
-            if [ -n "$secret_value" ]; then
-              printf '%s=%s\n' "$key" "$secret_value" >> "$GITHUB_ENV"
-              echo "$key loaded from secret"
-              return
-            fi
-
-            if [ -n "$var_value" ]; then
-              printf '%s=%s\n' "$key" "$var_value" >> "$GITHUB_ENV"
-              echo "$key loaded from variable"
-              return
-            fi
-
-            if [ "$required" = "true" ]; then
-              echo "::error::$key is missing in both Actions secrets and Actions variables."
-              echo "::error::Expected one of: WHAPI_API_TOKEN or WHAPI_TOKEN."
-              exit 1
-            fi
-          }
-
-          pick "WHAPI_API_TOKEN" "${WHAPI_API_TOKEN_SECRET:-$WHAPI_TOKEN_SECRET}" "${WHAPI_API_TOKEN_VAR:-$WHAPI_TOKEN_VAR}" "true"
-          pick "WHAPI_BASE_URL" "$WHAPI_BASE_URL_SECRET" "$WHAPI_BASE_URL_VAR"
-          pick "WHAPI_GROUP_ID" "$WHAPI_GROUP_ID_SECRET" "$WHAPI_GROUP_ID_VAR"
-          pick "HOUSEHOLD_GROUP_ID" "$HOUSEHOLD_GROUP_ID_SECRET" "$HOUSEHOLD_GROUP_ID_VAR"
-          pick "FAMILY_GROUP_ID" "$FAMILY_GROUP_ID_SECRET" "$FAMILY_GROUP_ID_VAR"
-          pick "COOK_MENTION_PHONE" "$COOK_MENTION_PHONE_SECRET" "$COOK_MENTION_PHONE_VAR"
 
       - name: Send due reminders
         run: node dist/scripts/reminders/send-reminders.js
