@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "reminders:run": "node dist/scripts/reminders/send-reminders.js",
-    "reminders:list-groups": "node dist/scripts/reminders/list-groups.js"
+    "reminders:run": "node --env-file-if-exists=.env dist/scripts/reminders/send-reminders.js",
+    "reminders:list-groups": "node --env-file-if-exists=.env dist/scripts/reminders/list-groups.js"
   },
   "devDependencies": {
     "@types/node": "^22.10.1",
