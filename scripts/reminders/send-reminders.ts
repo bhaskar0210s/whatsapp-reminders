@@ -6,13 +6,23 @@ import { getLocalDateParts, isReminderDue } from './scheduler';
 import { applyTemplate, buildTemplateContext } from './template';
 import { WhapiClient } from './whapi-client';
 
-function resolveTarget(reminder: ReminderDefinition, defaultTargetEnv?: string): string {
-  if (reminder.target?.trim()) {
-    return reminder.target.trim();
+function resolveTargets(reminder: ReminderDefinition, defaultTargetEnv?: string): string[] {
+  const directTargets = [
+    ...(reminder.target?.trim() ? [reminder.target.trim()] : []),
+    ...((reminder.targets ?? []).map((target) => target.trim()).filter(Boolean)),
+  ];
+  const envTargets = [
+    ...(reminder.targetEnv?.trim() ? [resolveEnvValue(reminder.targetEnv.trim())] : []),
+    ...((reminder.targetEnvs ?? []).map((envName) => resolveEnvValue(envName))),
+  ];
+
+  const configuredTargets = [...directTargets, ...envTargets];
+  if (configuredTargets.length > 0) {
+    return [...new Set(configuredTargets)];
   }
 
-  const envName = reminder.targetEnv || defaultTargetEnv || 'WHAPI_GROUP_ID';
-  return resolveEnvValue(envName);
+  const envName = defaultTargetEnv || 'WHAPI_GROUP_ID';
+  return [resolveEnvValue(envName)];
 }
 
 function resolveMentions(reminder: TextReminder): string[] {
@@ -27,28 +37,32 @@ async function sendReminder(
   defaultTargetEnv: string | undefined,
   nowContext: ReturnType<typeof buildTemplateContext>
 ): Promise<void> {
-  const target = resolveTarget(reminder, defaultTargetEnv);
+  const targets = resolveTargets(reminder, defaultTargetEnv);
 
   if (reminder.type === 'text') {
     const mentions = resolveMentions(reminder);
     const body = applyTemplate(reminder.message, nowContext);
 
-    await client.sendTextMessage({
-      to: target,
-      body,
-      mentions,
-    });
+    for (const target of targets) {
+      await client.sendTextMessage({
+        to: target,
+        body,
+        mentions,
+      });
+    }
 
     return;
   }
 
   const question = applyTemplate(reminder.question, nowContext);
 
-  await client.sendPoll({
-    to: target,
-    title: question,
-    options: reminder.options,
-  });
+  for (const target of targets) {
+    await client.sendPoll({
+      to: target,
+      title: question,
+      options: reminder.options,
+    });
+  }
 }
 
 async function run(): Promise<void> {

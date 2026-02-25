@@ -13,7 +13,9 @@ interface ReminderBase {
   type: ReminderType;
   schedule: ReminderSchedule;
   target?: string;
+  targets?: string[];
   targetEnv?: string;
+  targetEnvs?: string[];
 }
 
 export interface TextReminder extends ReminderBase {

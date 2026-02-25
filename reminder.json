@@ -7,7 +7,8 @@
       "title": "Birthday Reminder",
       "type": "text",
       "schedule": { "kind": "yearly", "month": 2, "day": 25, "time": "10:12" },
-      "message": "Happy Birthday"
+      "targets": ["919999999999", "918888888888"],
+      "message": "Almost happy birthday! 🎉🥳"
     }
   ]
 }
