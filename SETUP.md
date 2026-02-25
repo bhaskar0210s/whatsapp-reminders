@@ -16,9 +16,7 @@ Minimum required:
 - `WHAPI_GROUP_ID`
 
 Optional (used by sample reminders):
-- `HOUSEHOLD_GROUP_ID`
 - `FAMILY_GROUP_ID`
-- `COOK_MENTION_PHONE`
 - `WHAPI_BASE_URL` (defaults to `https://gate.whapi.cloud`)
 
 ## 3. Maintain reminders in one file
