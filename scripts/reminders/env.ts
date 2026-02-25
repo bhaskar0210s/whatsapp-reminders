@@ -6,7 +6,8 @@ export interface RuntimeSettings {
 }
 
 function readRequiredEnv(key: string): string {
-  const value = process.env[key]?.trim();
+  const value =
+    process.env[key]?.trim() || (key === 'WHAPI_API_TOKEN' ? process.env.WHAPI_TOKEN?.trim() : undefined);
   if (!value) {
     throw new Error(`Missing required env: ${key}`);
   }
