@@ -32,6 +32,6 @@ jobs:
           HOUSEHOLD_GROUP_ID: ${{ secrets.HOUSEHOLD_GROUP_ID }}
           FAMILY_GROUP_ID: ${{ secrets.FAMILY_GROUP_ID }}
           COOK_MENTION_PHONE: ${{ secrets.COOK_MENTION_PHONE }}
-          REMINDERS_FILE: reminders.md
+          REMINDERS_FILE: reminder.json
           REMINDER_DUE_TOLERANCE_MINUTES: '2'
         run: node dist/scripts/reminders/send-reminders.js

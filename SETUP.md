@@ -23,9 +23,9 @@ Optional (used by sample reminders):
 
 ## 3. Maintain reminders in one file
 
-Edit `reminders.md` only.
+Edit `reminder.json` only.
 
-The first JSON code block controls:
+The JSON file controls:
 - timezone
 - default target env
 - reminder list
@@ -38,7 +38,7 @@ The first JSON code block controls:
 WHAPI_API_TOKEN=your_token npm run reminders:list-groups
 ```
 
-Copy the right group id into `WHAPI_GROUP_ID` or a specific target env used in `reminders.md`.
+Copy the right group id into `WHAPI_GROUP_ID` or a specific target env used in `reminder.json`.
 
 ## 5. Test run
 
@@ -56,4 +56,4 @@ Workflow file:
 It runs every 5 minutes and calls:
 - `node dist/scripts/reminders/send-reminders.js`
 
-Make sure repository secrets include all env variables referenced by your `reminders.md` entries.
+Make sure repository secrets include all env variables referenced by your `reminder.json` entries.

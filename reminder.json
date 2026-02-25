@@ -1,14 +1,3 @@
-# Reminders Source Of Truth
-
-All reminder schedules and message templates live in this file.
-
-How it works:
-- The automation script reads the first `json` code block below.
-- `schedule.time` uses 24-hour `HH:MM`.
-- `targetEnv` points to an environment variable that stores a WhatsApp chat/group id.
-- Templates support: `{{date}}`, `{{weekday}}`, `{{month}}`, `{{day}}`, `{{year}}`, `{{time}}`.
-
-```json
 {
   "timezone": "Asia/Kolkata",
   "defaultTargetEnv": "WHAPI_GROUP_ID",
@@ -62,4 +51,3 @@ How it works:
     }
   ]
 }
-```

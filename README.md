@@ -2,16 +2,16 @@
 
 Automated WhatsApp reminders powered by TypeScript + GitHub Actions.
 
-The system is driven by a single file: `reminders.md`.
+The system is driven by a single file: `reminder.json`.
 All schedules, reminder text, poll options, and target chat env mappings are defined there.
 
 ## Architecture
 
-- `reminders.md`:
+- `reminder.json`:
   - source of truth for reminder definitions
-  - contains a JSON block with schedules and templates
+  - contains all schedules and templates as JSON
 - `scripts/reminders/send-reminders.ts`:
-  - loads `reminders.md`
+  - loads `reminder.json`
   - evaluates what is due for current time in configured timezone
   - sends text messages and polls through Whapi
 - `scripts/reminders/list-groups.ts`:

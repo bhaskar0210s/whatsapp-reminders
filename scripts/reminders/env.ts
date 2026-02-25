@@ -36,7 +36,7 @@ export function loadRuntimeSettings(): RuntimeSettings {
   return {
     whapiToken: readRequiredEnv('WHAPI_API_TOKEN'),
     whapiBaseUrl: normalizeBaseUrl(readOptionalEnv('WHAPI_BASE_URL')),
-    remindersFilePath: readOptionalEnv('REMINDERS_FILE') ?? 'reminders.md',
+    remindersFilePath: readOptionalEnv('REMINDERS_FILE') ?? 'reminder.json',
     dueToleranceMinutes: parsePositiveInt(readOptionalEnv('REMINDER_DUE_TOLERANCE_MINUTES'), 2, 'REMINDER_DUE_TOLERANCE_MINUTES'),
   };
 }

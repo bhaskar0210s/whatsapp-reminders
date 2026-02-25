@@ -2,15 +2,7 @@ import { readFile } from 'node:fs/promises';
 import { ReminderDefinition, ReminderSchedule, RemindersFileData, WeekdayCode } from './reminder-model';
 
 function fail(message: string): never {
-  throw new Error(`Invalid reminders.md format: ${message}`);
-}
-
-function extractJsonBlock(markdown: string): string {
-  const match = markdown.match(/```json\s*([\s\S]*?)```/i);
-  if (!match?.[1]) {
-    fail('Missing ```json ... ``` block.');
-  }
-  return match[1].trim();
+  throw new Error(`Invalid reminder file format: ${message}`);
 }
 
 function assertObject(value: unknown, label: string): Record<string, unknown> {
@@ -141,14 +133,13 @@ function parseReminder(raw: unknown, index: number): ReminderDefinition {
 }
 
 export async function loadRemindersFile(filePath: string): Promise<RemindersFileData> {
-  const rawMarkdown = await readFile(filePath, 'utf8');
-  const jsonText = extractJsonBlock(rawMarkdown);
+  const rawJson = await readFile(filePath, 'utf8');
 
   let parsed: unknown;
   try {
-    parsed = JSON.parse(jsonText);
+    parsed = JSON.parse(rawJson);
   } catch (error) {
-    throw new Error(`Invalid JSON in reminders.md: ${String(error)}`);
+    throw new Error(`Invalid JSON in ${filePath}: ${String(error)}`);
   }
 
   const root = assertObject(parsed, 'root');
