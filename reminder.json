@@ -6,7 +6,7 @@
       "id": "birthday-reminder-919999999999",
       "title": "Birthday Reminder - 919999999999",
       "type": "text",
-      "schedule": { "kind": "yearly", "month": 2, "day": 25, "time": "10:23" },
+      "schedule": { "kind": "yearly", "month": 2, "day": 25 },
       "target": "919999999999",
       "message": "Happy birthday! 🎉🥳"
     },
@@ -14,9 +14,49 @@
       "id": "birthday-reminder-918888888888",
       "title": "Birthday Reminder - 918888888888",
       "type": "text",
-      "schedule": { "kind": "yearly", "month": 3, "day": 1, "time": "10:12" },
+      "schedule": { "kind": "yearly", "month": 3, "day": 1 },
       "target": "918888888888",
       "message": "Happy birthday! 🎉🥳"
+    },
+    {
+      "id": "family-chore-rotation-917777777777",
+      "title": "Family Chore Rotation",
+      "type": "text",
+      "schedule": { "kind": "weekly", "day": "mon" },
+      "message": "Family chore: clean kitchen, clean bathroom, laundry, and grocery tasks.",
+      "target": "917777777777"
+    },
+    {
+      "id": "family-chore-rotation-918888888888",
+      "title": "Family Chore Rotation",
+      "type": "text",
+      "schedule": { "kind": "weekly", "day": "thu" },
+      "message": "Family chore: clean kitchen, clean bathroom, laundry, and grocery tasks.",
+      "target": "918888888888"
+    },
+    {
+      "id": "bill-due-reminder",
+      "title": "Bill Due Reminder",
+      "type": "text",
+      "schedule": { "kind": "monthly", "day": 1 },
+      "message": "Check electricity, internet, and rent due dates.",
+      "target": "918888888888"
+    },
+    {
+      "id": "weekly-grocery-plan",
+      "title": "Weekly Grocery + Owner",
+      "type": "poll",
+      "schedule": { "kind": "weekly", "day": "sat" },
+      "question": "Who will handle grocery shopping this weekend?",
+      "options": ["I will", "Need someone else", "Split between 2 people"]
+    },
+    {
+      "id": "weekend-entertainment",
+      "title": "Weekend Entertainment",
+      "type": "poll",
+      "schedule": { "kind": "weekly", "day": "fri" },
+      "question": "Pick this weekend activity:",
+      "options": ["Movie night", "Dinner out", "Home board games"]
     }
   ]
 }
