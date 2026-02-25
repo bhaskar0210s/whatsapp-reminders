@@ -26,12 +26,12 @@ jobs:
 
       - name: Send due reminders
         env:
-          WHAPI_API_TOKEN: ${{ secrets.WHAPI_API_TOKEN }}
-          WHAPI_BASE_URL: ${{ secrets.WHAPI_BASE_URL }}
-          WHAPI_GROUP_ID: ${{ secrets.WHAPI_GROUP_ID }}
-          HOUSEHOLD_GROUP_ID: ${{ secrets.HOUSEHOLD_GROUP_ID }}
-          FAMILY_GROUP_ID: ${{ secrets.FAMILY_GROUP_ID }}
-          COOK_MENTION_PHONE: ${{ secrets.COOK_MENTION_PHONE }}
+          WHAPI_API_TOKEN: ${{ secrets.WHAPI_API_TOKEN || vars.WHAPI_API_TOKEN }}
+          WHAPI_BASE_URL: ${{ secrets.WHAPI_BASE_URL || vars.WHAPI_BASE_URL }}
+          WHAPI_GROUP_ID: ${{ secrets.WHAPI_GROUP_ID || vars.WHAPI_GROUP_ID }}
+          HOUSEHOLD_GROUP_ID: ${{ secrets.HOUSEHOLD_GROUP_ID || vars.HOUSEHOLD_GROUP_ID }}
+          FAMILY_GROUP_ID: ${{ secrets.FAMILY_GROUP_ID || vars.FAMILY_GROUP_ID }}
+          COOK_MENTION_PHONE: ${{ secrets.COOK_MENTION_PHONE || vars.COOK_MENTION_PHONE }}
           REMINDERS_FILE: reminder.json
           REMINDER_DUE_TOLERANCE_MINUTES: '2'
         run: node dist/scripts/reminders/send-reminders.js
